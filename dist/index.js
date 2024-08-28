@@ -4,12 +4,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const body_parser_1 = __importDefault(require("body-parser"));
+const product_router_1 = require("./routers/product-router");
+const addresses_router_1 = require("./routers/addresses-router");
+const parserMiddleWare = (0, body_parser_1.default)();
+// create app
 const app = (0, express_1.default)();
-const port = 3000;
-app.get('/', (req, res) => {
-    let helloMessage = 'Hello World!';
-    res.send(helloMessage);
-});
+app.use(parserMiddleWare);
+const port = process.env.PORT || 5000;
+// Routers
+app.use('/products', product_router_1.productRouter);
+app.use('/addresses', addresses_router_1.addressesRouter);
+// start app
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 });
